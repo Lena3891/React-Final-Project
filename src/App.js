@@ -8,9 +8,12 @@ export default function App() {
       <div className="container">
         <Weather />
         <footer>
-          This project was coded by Magdalena Zyglewicz
-          and is{" "}
-          <a href="https://github.com/Lena3891/react-week-5" target="_blank">
+          This project was coded by Magdalena Zyglewicz and is{" "}
+          <a
+            href="https://github.com/Lena3891/react-week-5"
+            rel="noreferrer"
+             target="_blank"
+          >
             open-sourced on GitHub
           </a>
         </footer>
