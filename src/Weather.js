@@ -49,13 +49,7 @@ export default function Weather(props) {
   if (weatherData.ready) {
     return (
       <div className="Weather">
-        <a
-          href="https://www.shecodes.io/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="/images/logo.png" className="logo" alt="SheCodes Logo" />
-        </a>
+       
         <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-9 ">
@@ -88,7 +82,7 @@ export default function Weather(props) {
           </a>{" "}
           and{" "}
           <a
-            href="https://shecodes-weather.netlify.app/"
+            href="https://react-weather-app-final-project-mz.netlify.app/"
             target="_blank"
             rel="noopener noreferrer"
           >
