@@ -20,7 +20,7 @@ export default function App() {
           </a>{" "}
           and hosted on{" "}
           <a
-            href="https://react-weather-app-final-project-mz.netlify.app/"
+            href="https://react-final-project-weather.netlify.app/"
             target="_blank"
             rel="noopener noreferrer"
           >

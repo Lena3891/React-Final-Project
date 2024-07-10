@@ -4,30 +4,28 @@ import "./WeatherForecast.css";
 
 export default function WeatherForecast(props) {
   const [forecast, setForecast] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    function handleForecastResponse(response) {
-      console.log(response.data); // Debugging: API-Antwort überprüfen
-      setForecast(response.data.daily); // Assuming the response contains a daily forecast array
-    }
-
     if (props.coordinates) {
-      console.log("Fetching forecast for coordinates: ", props.coordinates); // Debugging: Überprüfung der Koordinaten
-      let apiKey = "8f89013d30bfc04f0f041a1bdo2t3fe7";
-      let latitude = props.coordinates.lat;
-      let longitude = props.coordinates.lon;
-      let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${props.city}&key=${apiKey}&units=metric`; //api.shecodes.io/weather/v1/forecast?query={query}&key={key}
+      const apiKey = "8f89013d30bfc04f0f041a1bdo2t3fe7";
+      const { lat, lon } = props.coordinates;
+      const apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${lat}&lon=${lon}&key=${apiKey}&units=metric`;
 
-       https: axios
-         .get(apiUrl)
-         .then(handleForecastResponse)
-         .catch((error) => {
-           console.error("Error fetching forecast data: ", error);
-         });
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          console.log(response.data); // Debugging: API-Antwort überprüfen
+          setForecast(response.data.daily);
+          setLoaded(true);
+        })
+        .catch((error) => {
+          console.error("Error fetching forecast data: ", error);
+        });
     }
   }, [props.coordinates]);
 
-  if (forecast) {
+  if (loaded && forecast) {
     return (
       <div className="WeatherForecast">
         <div className="row justify-content-center">
