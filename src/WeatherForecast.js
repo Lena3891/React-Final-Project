@@ -13,17 +13,17 @@ export default function WeatherForecast(props) {
 
     if (props.coordinates) {
       console.log("Fetching forecast for coordinates: ", props.coordinates); // Debugging: Überprüfung der Koordinaten
-      const apiKey = "8f89013d30bfc04f0f041a1bdo2t3fe7";
-      const latitude = props.coordinates.lat;
-      const longitude = props.coordinates.lon;
-      let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${latitude}&lon=${longitude}&key=${apiKey}&units=metric`;
+      let apiKey = "8f89013d30bfc04f0f041a1bdo2t3fe7";
+      let latitude = props.coordinates.lat;
+      let longitude = props.coordinates.lon;
+      let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${props.city}&key=${apiKey}&units=metric`; //api.shecodes.io/weather/v1/forecast?query={query}&key={key}
 
-      axios
-        .get(apiUrl)
-        .then(handleForecastResponse)
-        .catch((error) => {
-          console.error("Error fetching forecast data: ", error);
-        });
+       https: axios
+         .get(apiUrl)
+         .then(handleForecastResponse)
+         .catch((error) => {
+           console.error("Error fetching forecast data: ", error);
+         });
     }
   }, [props.coordinates]);
 
