@@ -7,11 +7,26 @@ import "./Weather.css";
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
   const [city, setCity] = useState(props.defaultCity);
-  const [inputCity, setInputCity] = useState(props.defaultCity); // Neuer Zustand für das Input-Feld
+  const [inputCity, setInputCity] = useState(props.defaultCity);
+
+  // Define search function
+  const search = () => {
+    const apiKey = "97f8e93f00107773f88eafd933ce86b7";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    axios
+      .get(apiUrl)
+      .then(handleResponse)
+      .catch((error) => {
+        console.error("Error fetching weather data: ", error);
+      });
+  };
 
   useEffect(() => {
-    search();
-  }, [city]);
+    search(); // Call search function here
+
+    // Since search is defined outside useEffect and used inside, include it in the dependency array
+  }, [search, city]); // Include 'search' and 'city' in the dependency array
 
   function handleResponse(response) {
     setWeatherData({
@@ -28,26 +43,12 @@ export default function Weather(props) {
   }
 
   function handleSubmit(event) {
-    event.preventDefault(); // Verhindert das Neuladen der Seite
-
-    // Setze die Stadt auf den aktuellen Wert des Input-Feldes
-    setCity(inputCity);
+    event.preventDefault();
+    setCity(inputCity); // Update city state with inputCity
   }
 
   function handleCityChange(event) {
-    setInputCity(event.target.value); // Aktualisiere den Wert des Input-Feldes
-  }
-
-  function search() {
-    const apiKey = "97f8e93f00107773f88eafd933ce86b7";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
-    axios
-      .get(apiUrl)
-      .then(handleResponse)
-      .catch((error) => {
-        console.error("Error fetching weather data: ", error);
-      });
+    setInputCity(event.target.value); // Update inputCity state with input value
   }
 
   return (
@@ -78,7 +79,7 @@ export default function Weather(props) {
       ) : (
         <div className="Weather-loading">Loading...</div>
       )}
-      
+     
     </div>
   );
 }
