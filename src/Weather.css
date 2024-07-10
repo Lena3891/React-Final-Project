@@ -1,6 +1,6 @@
 .Weather {
   color: rgb(135, 135, 135);
-  border: 1px solid #dadde1;
+  border: 5px solid #dadde1;
   font-family: Arial, sans-serif;
   margin: 30px auto;
   border-radius: 4px;
@@ -58,3 +58,8 @@
   top: -20px;
   margin-left: 0;
 }
+.btn {
+  background-color: blueviolet;
+  color: white;
+}
+

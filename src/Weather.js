@@ -7,6 +7,7 @@ import "./Weather.css";
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
   const [city, setCity] = useState(props.defaultCity);
+  const [inputCity, setInputCity] = useState(props.defaultCity); // Neuer Zustand für das Input-Feld
 
   useEffect(() => {
     search();
@@ -27,17 +28,20 @@ export default function Weather(props) {
   }
 
   function handleSubmit(event) {
-    event.preventDefault();
-    search();
+    event.preventDefault(); // Verhindert das Neuladen der Seite
+
+    // Setze die Stadt auf den aktuellen Wert des Input-Feldes
+    setCity(inputCity);
   }
 
   function handleCityChange(event) {
-    setCity(event.target.value);
+    setInputCity(event.target.value); // Aktualisiere den Wert des Input-Feldes
   }
 
   function search() {
     const apiKey = "97f8e93f00107773f88eafd933ce86b7";
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
     axios
       .get(apiUrl)
       .then(handleResponse)
@@ -46,52 +50,35 @@ export default function Weather(props) {
       });
   }
 
-  if (weatherData.ready) {
-    return (
-      <div className="Weather">
-       
-        <form onSubmit={handleSubmit}>
-          <div className="row">
-            <div className="col-9 ">
-              <input
-                type="search"
-                placeholder="Enter a city.."
-                className="form-control search-input"
-                onChange={handleCityChange}
-              />
-            </div>
-            <div className="col-3 p-0">
-              <input
-                type="submit"
-                value="Search"
-                className="btn btn-primary w-100"
-              />
-            </div>
+  return (
+    <div className="Weather">
+      <form onSubmit={handleSubmit}>
+        <div className="row">
+          <div className="col-9">
+            <input
+              type="search"
+              placeholder="Enter a city.."
+              className="form-control search-input"
+              value={inputCity}
+              onChange={handleCityChange}
+            />
           </div>
-        </form>
-        <WeatherInfo data={weatherData} />
-        <WeatherForecast coordinates={weatherData.coordinates} />
-        <footer>
-          This project was coded by Magdalena Zyglewicz and is{" "}
-          <a
-            href="https://github.com/Lena3891/React-Week-5"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            open-sourced on GitHub
-          </a>{" "}
-          and{" "}
-          <a
-            href="https://react-weather-app-final-project-mz.netlify.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            hosted on Netlify
-          </a>
-        </footer>
-      </div>
-    );
-  } else {
-    return <div className="Weather">Loading...</div>;
-  }
+          <div className="col-3">
+            <button type="submit" className="btn btn-primary w-100">
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+      {weatherData.ready ? (
+        <>
+          <WeatherInfo data={weatherData} />
+          <WeatherForecast coordinates={weatherData.coordinates} />
+        </>
+      ) : (
+        <div className="Weather-loading">Loading...</div>
+      )}
+      
+    </div>
+  );
 }

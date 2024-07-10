@@ -8,3 +8,9 @@ body {
   max-width: 800px;
   margin: 60px auto;
 }
+footer {
+  text-align: center;
+}
+.App a {
+  color:blueviolet
+}

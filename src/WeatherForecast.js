@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./WeatherForecast.css";
 
 export default function WeatherForecast(props) {
   const [forecast, setForecast] = useState(null);
@@ -27,37 +28,31 @@ export default function WeatherForecast(props) {
   if (forecast) {
     return (
       <div className="WeatherForecast">
-        <div className="row">
-          {forecast.map((dailyForecast, index) => {
-            if (index < 5) {
-              return (
-                <div className="col" key={index}>
-                  <div className="WeatherForecast-day">
-                    {new Date(dailyForecast.dt * 1000).toLocaleDateString(
-                      "en-US",
-                      { weekday: "short" }
-                    )}
-                  </div>
-                  <div className="WeatherForecast-icon">
-                    <img
-                      src={`http://openweathermap.org/img/wn/${dailyForecast.weather[0].icon}.png`}
-                      alt={dailyForecast.weather[0].description}
-                    />
-                  </div>
-                  <div className="WeatherForecast-temperatures">
-                    <span className="WeatherForecast-temperature-max">
-                      {Math.round(dailyForecast.temp.max)}°
-                    </span>
-                    <span className="WeatherForecast-temperature-min">
-                      {Math.round(dailyForecast.temp.min)}°
-                    </span>
-                  </div>
-                </div>
-              );
-            } else {
-              return null;
-            }
-          })}
+        <div className="row justify-content-center">
+          {forecast.slice(0, 5).map((dailyForecast, index) => (
+            <div className="col-2" key={index}>
+              <div className="WeatherForecast-day text-center">
+                {new Date(dailyForecast.dt * 1000).toLocaleDateString("en-US", {
+                  weekday: "short",
+                })}
+              </div>
+              <div className="WeatherForecast-icon">
+                <img
+                  src={`http://openweathermap.org/img/wn/${dailyForecast.weather[0].icon}.png`}
+                  alt={dailyForecast.weather[0].description}
+                />
+              </div>
+              <div className="WeatherForecast-temperatures text-center">
+                <span className="WeatherForecast-temperature-max">
+                  {Math.round(dailyForecast.temp.max)}°
+                </span>{" "}
+                /{" "}
+                <span className="WeatherForecast-temperature-min">
+                  {Math.round(dailyForecast.temp.min)}°
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );

@@ -1,8 +1,19 @@
 .WeatherForecast {
-  text-align: center;
+  margin-top: 30px; /* Abstand zur Stadt */
 }
 
-.WeatherForecast-temperature-min {
-  opacity: 0.6;
-  margin-left: 5px;
+.WeatherForecast-day {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.WeatherForecast-icon img {
+  width: 50px;
+  height: auto;
+  display: block;
+  margin: 0 auto; /* Bild zentriert ausrichten */
+}
+
+.WeatherForecast-temperatures {
+  margin-top: 5px;
 }
