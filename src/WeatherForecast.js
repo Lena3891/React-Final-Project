@@ -7,14 +7,16 @@ export default function WeatherForecast(props) {
 
   useEffect(() => {
     function handleForecastResponse(response) {
-      setForecast(response.data.daily);
+      console.log(response.data); // Debugging: API-Antwort überprüfen
+      setForecast(response.data.daily); // Assuming the response contains a daily forecast array
     }
 
     if (props.coordinates) {
-      const apiKey = "97f8e93f00107773f88eafd933ce86b7";
+      console.log("Fetching forecast for coordinates: ", props.coordinates); // Debugging: Überprüfung der Koordinaten
+      const apiKey = "8f89013d30bfc04f0f041a1bdo2t3fe7";
       const latitude = props.coordinates.lat;
       const longitude = props.coordinates.lon;
-      let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+      let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${latitude}&lon=${longitude}&key=${apiKey}&units=metric`;
 
       axios
         .get(apiUrl)

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useCallback } from "react";
 import WeatherInfo from "./WeatherInfo";
 import WeatherForecast from "./WeatherForecast";
 import axios from "axios";
@@ -9,10 +10,9 @@ export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
   const [inputCity, setInputCity] = useState(props.defaultCity);
 
- 
-  const search = () => {
-    const apiKey = "97f8e93f00107773f88eafd933ce86b7";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+  const search = useCallback(() => {
+    const apiKey = "8f89013d30bfc04f0f041a1bdo2t3fe7";
+   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
 
     axios
       .get(apiUrl)
@@ -20,13 +20,11 @@ export default function Weather(props) {
       .catch((error) => {
         console.error("Error fetching weather data: ", error);
       });
-  };
+  }, [city]);
 
   useEffect(() => {
     search(); // Call search function here
-
-    // Since search is defined outside useEffect and used inside, include it in the dependency array
-  }, [search, city]); // Include 'search' and 'city' in the dependency array
+  }, [search]); // Include 'search' in the dependency array
 
   function handleResponse(response) {
     setWeatherData({
@@ -79,7 +77,6 @@ export default function Weather(props) {
       ) : (
         <div className="Weather-loading">Loading...</div>
       )}
-     
     </div>
   );
 }
