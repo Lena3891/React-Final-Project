@@ -1,39 +1,57 @@
 import React, { useState, useEffect } from "react";
-import "./WeatherForecast.css";
 import axios from "axios";
-import WeatherForecastDay from "./WeatherForecastDay";
 
 export default function WeatherForecast(props) {
-  let [loaded, setLoaded] = useState(false);
-  let [forecast, setForecast] = useState(null);
+  const [forecast, setForecast] = useState(null);
 
   useEffect(() => {
-    setLoaded(false);
+    function handleForecastResponse(response) {
+      setForecast(response.data.daily);
+    }
+
+    if (props.coordinates) {
+      const apiKey = "97f8e93f00107773f88eafd933ce86b7";
+      const latitude = props.coordinates.lat;
+      const longitude = props.coordinates.lon;
+      let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+      axios
+        .get(apiUrl)
+        .then(handleForecastResponse)
+        .catch((error) => {
+          console.error("Error fetching forecast data: ", error);
+        });
+    }
   }, [props.coordinates]);
 
-  function handleResponse(response) {
-    setForecast(response.data.daily);
-    setLoaded(true);
-  }
-
-  function load() {
-    let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
-    let longitude = props.coordinates.lon;
-    let latitude = props.coordinates.lat;
-    let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-
-    axios.get(apiUrl).then(handleResponse);
-  }
-
-  if (loaded) {
+  if (forecast) {
     return (
       <div className="WeatherForecast">
         <div className="row">
-          {forecast.map(function (dailyForecast, index) {
+          {forecast.map((dailyForecast, index) => {
             if (index < 5) {
               return (
                 <div className="col" key={index}>
-                  <WeatherForecastDay data={dailyForecast} />
+                  <div className="WeatherForecast-day">
+                    {new Date(dailyForecast.dt * 1000).toLocaleDateString(
+                      "en-US",
+                      { weekday: "short" }
+                    )}
+                  </div>
+                  <div className="WeatherForecast-icon">
+                    <img
+                      src={`http://openweathermap.org/img/wn/${dailyForecast.weather[0].icon}.png`}
+                      alt={dailyForecast.weather[0].description}
+                    />
+                  </div>
+                  <div className="WeatherForecast-temperatures">
+                    <span className="WeatherForecast-temperature-max">
+                      {Math.round(dailyForecast.temp.max)}°
+                    </span>
+                    <span className="WeatherForecast-temperature-min">
+                      {Math.round(dailyForecast.temp.min)}°
+                    </span>
+                  </div>
                 </div>
               );
             } else {
@@ -44,8 +62,6 @@ export default function WeatherForecast(props) {
       </div>
     );
   } else {
-    load();
-
     return null;
   }
 }

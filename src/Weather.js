@@ -1,41 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import WeatherInfo from "./WeatherInfo";
+import WeatherForecast from "./WeatherForecast";
 import axios from "axios";
 import "./Weather.css";
-import FormattedDate from "./FormattedDate";
-import FormattedData from "./FormattedData";
 
-export default function Weather() {
-  const [ready, setReady] = useState(false);
-  const [weatherData, setWeatherData] = useState({});
+export default function Weather(props) {
+  const [weatherData, setWeatherData] = useState({ ready: false });
+  const [city, setCity] = useState(props.defaultCity);
+
+  useEffect(() => {
+    search();
+  }, [city]);
 
   function handleResponse(response) {
     setWeatherData({
-      date: new Date(response.data.time * 1000), // Assuming the API returns a Unix timestamp
-      temperature: Math.round(response.data.temperature.current),
-      humidity: response.data.temperature.humidity,
-      feels_like: Math.round(response.data.temperature.feels_like),
-      pressure: response.data.temperature.pressure,
-      description: response.data.condition.description,
-      iconUrl: response.data.condition.icon_url, // Dynamische Icon-URL aus der API
-      city: response.data.city,
+      ready: true,
+      coordinates: response.data.coord,
+      temperature: response.data.main.temp,
+      humidity: response.data.main.humidity,
+      date: new Date(response.data.dt * 1000),
+      description: response.data.weather[0].description,
+      icon: response.data.weather[0].icon,
+      wind: response.data.wind.speed,
+      city: response.data.name,
     });
-    setReady(true);
   }
 
-  if (ready) {
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+
+  function handleCityChange(event) {
+    setCity(event.target.value);
+  }
+
+  function search() {
+    const apiKey = "97f8e93f00107773f88eafd933ce86b7";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    axios
+      .get(apiUrl)
+      .then(handleResponse)
+      .catch((error) => {
+        console.error("Error fetching weather data: ", error);
+      });
+  }
+
+  if (weatherData.ready) {
     return (
       <div className="Weather">
-        <form>
+        <a
+          href="https://www.shecodes.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="/images/logo.png" className="logo" alt="SheCodes Logo" />
+        </a>
+        <form onSubmit={handleSubmit}>
           <div className="row">
-            <div className="col-9">
+            <div className="col-9 ">
               <input
                 type="search"
-                placeholder="Ort suchen"
-                className="form-control"
-                autoFocus="on"
+                placeholder="Enter a city.."
+                className="form-control search-input"
+                onChange={handleCityChange}
               />
             </div>
-            <div className="col-3">
+            <div className="col-3 p-0">
               <input
                 type="submit"
                 value="Search"
@@ -44,49 +75,29 @@ export default function Weather() {
             </div>
           </div>
         </form>
-        <h1>{weatherData.city}</h1>
-        <ul>
-          <li>
-            <FormattedDate date={weatherData.date} />
-          </li>
-          <li>{weatherData.description}</li>
-        </ul>
-        <div className="row mt-3">
-          <div className="col-6">
-            <div className="temperature-container">
-              <img
-                src={weatherData.iconUrl}
-                alt={weatherData.description}
-                className="weather-icon"
-              />
-              <div className="temperature-details">
-                <span className="temperature">{weatherData.temperature}</span>
-                <span className="unit">°C</span>
-              </div>
-            </div>
-          </div>
-          <div className="col-6">
-            <ul>
-              <li>Humidity: {weatherData.humidity}%</li>
-              <li>Feels like: {weatherData.feels_like}°C</li>
-              <li>Pressure: {weatherData.pressure} hPa</li>
-              <li>Wind: 8 km/h</li>
-            </ul>
-          </div>
-        </div>
-        <FormattedData
-          date={weatherData.date.toString()}
-          description={weatherData.description}
-          icon={weatherData.iconUrl}
-        />
+        <WeatherInfo data={weatherData} />
+        <WeatherForecast coordinates={weatherData.coordinates} />
+        <footer>
+          This project was coded by Magdalena Zyglewicz and is{" "}
+          <a
+            href="https://github.com/Lena3891/React-Week-5"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            open-sourced on GitHub
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://shecodes-weather.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            hosted on Netlify
+          </a>
+        </footer>
       </div>
     );
   } else {
-    const apiKey = "8f89013d30bfc04f0f041a1bdo2t3fe7";
-    let city = "Neuburg an der Donau";
-    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&unit=metric`;
-    axios.get(apiUrl).then(handleResponse);
-
-    return "Loading...";
+    return <div className="Weather">Loading...</div>;
   }
 }
