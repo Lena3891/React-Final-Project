@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import WeatherInfo from "./WeatherInfo";
 import WeatherForecast from "./WeatherForecast";
@@ -11,9 +10,9 @@ export default function Weather(props) {
   const [inputCity, setInputCity] = useState(props.defaultCity);
 
   const search = useCallback(() => {
-   let apiKey = "fbef01f4et1b02o0d25c27210a43ef3f";
-   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
-    
+    let apiKey = "fbef01f4et1b02o0d25c27210a43ef3f";
+    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+
     axios
       .get(apiUrl)
       .then(handleResponse)
@@ -26,19 +25,19 @@ export default function Weather(props) {
     search(); // Call search function here
   }, [search]); // Include 'search' in the dependency array
 
-  function handleResponse(response) {
-    setWeatherData({
-      ready: true,
-      coordinates: response.data.coord,
-      temperature: response.data.main.temp,
-      humidity: response.data.main.humidity,
-      date: new Date(response.data.dt * 1000),
-      description: response.data.weather[0].description,
-      icon: response.data.weather[0].icon,
-      wind: response.data.wind.speed,
-      city: response.data.name,
-    });
-  }
+function handleResponse(response) {
+  setWeatherData({
+    ready: true,
+    coordinates: response.data.coordinates,
+    temperature: response.data.temperature.current,
+    humidity: response.data.temperature.humidity,
+    date: new Date(response.data.time * 1000),
+    description: response.data.condition.description,
+    icon: response.data.condition.icon,
+    wind: response.data.wind.speed,
+    city: response.data.city,
+  });
+}
 
   function handleSubmit(event) {
     event.preventDefault();

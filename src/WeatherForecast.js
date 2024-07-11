@@ -9,8 +9,8 @@ export default function WeatherForecast(props) {
   useEffect(() => {
     if (props.coordinates) {
       const apiKey = "fbef01f4et1b02o0d25c27210a43ef3f";
-      const { lat, lon } = props.coordinates;
-      const apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${lat}&lon=${lon}&key=${apiKey}&units=metric`;
+      const { latitude, longitude } = props.coordinates;
+       const apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${latitude}&lon=${longitude}&key=${apiKey}&units=metric`;
 
       axios
         .get(apiUrl)
@@ -32,23 +32,23 @@ export default function WeatherForecast(props) {
           {forecast.slice(0, 5).map((dailyForecast, index) => (
             <div className="col-2" key={index}>
               <div className="WeatherForecast-day text-center">
-                {new Date(dailyForecast.dt * 1000).toLocaleDateString("en-US", {
+                {new Date(dailyForecast.time * 1000).toLocaleDateString("en-US", {
                   weekday: "short",
                 })}
               </div>
               <div className="WeatherForecast-icon">
                 <img
-                  src={`http://openweathermap.org/img/wn/${dailyForecast.weather[0].icon}.png`}
-                  alt={dailyForecast.weather[0].description}
+                  src={dailyForecast.condition.icon_url}
+                  alt={dailyForecast.condition.description}
                 />
               </div>
               <div className="WeatherForecast-temperatures text-center">
                 <span className="WeatherForecast-temperature-max">
-                  {Math.round(dailyForecast.temp.max)}°
+                  {Math.round(dailyForecast.temp.maximum)}°
                 </span>{" "}
                 /{" "}
                 <span className="WeatherForecast-temperature-min">
-                  {Math.round(dailyForecast.temp.min)}°
+                  {Math.round(dailyForecast.temp.minimum)}°
                 </span>
               </div>
             </div>
@@ -56,7 +56,5 @@ export default function WeatherForecast(props) {
         </div>
       </div>
     );
-  } else {
-    return null;
   }
 }
