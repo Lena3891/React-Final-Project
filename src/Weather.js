@@ -11,7 +11,7 @@ export default function Weather(props) {
   const [inputCity, setInputCity] = useState(props.defaultCity);
 
   const search = useCallback(() => {
-   let apiKey = "8f89013d30bfc04f0f041a1bdo2t3fe7";
+   let apiKey = "fbef01f4et1b02o0d25c27210a43ef3f";
    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
     
     axios
