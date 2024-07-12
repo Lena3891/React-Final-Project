@@ -26,6 +26,8 @@ export default function Weather(props) {
   }, [search]); // Include 'search' in the dependency array
 
 function handleResponse(response) {
+  console.log("API response:", response.data); // Konsolenausgabe zur Überprüfung der API-Antwort
+
   setWeatherData({
     ready: true,
     coordinates: response.data.coordinates,
@@ -33,11 +35,14 @@ function handleResponse(response) {
     humidity: response.data.temperature.humidity,
     date: new Date(response.data.time * 1000),
     description: response.data.condition.description,
-    icon: response.data.condition.icon,
+    icon: response.data.condition.icon, // Verwenden Sie den Code für ReactAnimatedWeather
+    icon_url: response.data.condition.icon_url, // Verwenden Sie die URL für direkte Bildanzeige
     wind: response.data.wind.speed,
     city: response.data.city,
   });
 }
+
+
 
   function handleSubmit(event) {
     event.preventDefault();

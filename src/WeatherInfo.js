@@ -15,16 +15,20 @@ export default function WeatherInfo(props) {
             </li>
             <li>
               Humidity: <strong>{props.data.humidity}%</strong>
-               </li>
-            <li>   
-               Wind:{" "}
-              <strong>{props.data.wind}km/h</strong>
+            </li>
+            <li>
+              Wind: <strong>{props.data.wind} km/h</strong>
             </li>
           </ul>
         </div>
         <div className="col-lg-6 col-md-6 col-sm-8">
           <div className="temperature-container d-flex justify-content-end">
-            <WeatherIcon code={props.data.icon} size={52} />
+            <WeatherIcon
+              code={props.data.icon}
+              icon_url={props.data.icon_url}
+              description={props.data.description}
+              size={52}
+            />
             <div>
               <span className="temperature">
                 {Math.round(props.data.temperature)}
