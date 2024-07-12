@@ -9,7 +9,7 @@ export default function WeatherForecast(props) {
   useEffect(() => {
     if (props.coordinates) {
       const apiKey = "fbef01f4et1b02o0d25c27210a43ef3f";
-      const { lat: latitude, lon: longitude } = props.coordinates;
+      const { latitude, longitude } = props.coordinates;
       const apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${latitude}&lon=${longitude}&key=${apiKey}&units=metric`;
 
       axios
@@ -55,12 +55,14 @@ export default function WeatherForecast(props) {
               </div>
               <div className="WeatherForecast-temperatures text-center">
                 <span className="WeatherForecast-temperature-max">
-                  {dailyForecast.temp && Math.round(dailyForecast.temp.maximum)}
+                  {dailyForecast.temperature &&
+                    Math.round(dailyForecast.temperature.maximum)}
                   °
                 </span>{" "}
                 /{" "}
                 <span className="WeatherForecast-temperature-min">
-                  {dailyForecast.temp && Math.round(dailyForecast.temp.minimum)}
+                  {dailyForecast.temperature &&
+                    Math.round(dailyForecast.temperature.minimum)}
                   °
                 </span>
               </div>
