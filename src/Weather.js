@@ -67,7 +67,6 @@ export default function Weather(props) {
                 value={inputCity}
                 onChange={handleCityChange}
               />
-             
             </div>
           </div>
           <div className="col-3">
