@@ -67,15 +67,7 @@ export default function Weather(props) {
                 value={inputCity}
                 onChange={handleCityChange}
               />
-              {inputCity && (
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary clear-button"
-                  onClick={clearInput}
-                >
-                  ×
-                </button>
-              )}
+             
             </div>
           </div>
           <div className="col-3">

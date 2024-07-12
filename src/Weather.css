@@ -69,8 +69,8 @@
 
 .clear-button {
   position: absolute;
-  right: 5px;
-  top: 50%;
+  right: 30px;
+  top: 20px;
   transform: translateY(-50%);
   z-index: 3;
   background: none;
