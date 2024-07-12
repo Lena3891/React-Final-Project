@@ -63,22 +63,3 @@
   color: white;
 }
 
-.input-group {
-  position: relative;
-}
-
-.clear-button {
-  position: absolute;
-  right: 30px;
-  top: 20px;
-  transform: translateY(-50%);
-  z-index: 3;
-  background: none;
-  border: none;
-  font-size: 1.2em;
-  cursor: pointer;
-}
-
-.search-input {
-  padding-right: 30px;
-}
