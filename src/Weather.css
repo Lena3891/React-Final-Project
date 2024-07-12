@@ -62,4 +62,25 @@
   background-color: blueviolet;
   color: white;
 }
+.input-wrapper {
+  position: relative;
+}
+
+.search-input {
+  padding-right: 30px;
+}
+
+.clear-input {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #999;
+}
+
+.clear-input:hover {
+  color: #333;
+}
 
