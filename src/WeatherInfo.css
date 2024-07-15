@@ -5,8 +5,29 @@
 
 .WeatherInfo .temperature-container {
   margin-top: 20px;
-  align-items: center;
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.WeatherInfo .temperature-wrapper {
+  display: flex;
+  align-items: baseline; /* Ensures proper vertical alignment */
+}
+
+.WeatherInfo .temperature {
+  font-size: 2rem; /* Adjust as needed */
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle; /* Aligns the temperature vertically to the middle */
+}
+
+.WeatherInfo .unit {
+  font-size: 1.5rem; /* Adjust for desktop view */
+  line-height: 1;
+  margin-left: 5px; /* Adds some space between the temperature and the unit */
+  display: inline-block;
+  vertical-align: middle; /* Aligns the unit vertically to the middle */
 }
 
 @media (max-width: 768px) {
@@ -31,8 +52,22 @@
     margin-top: 10px;
   }
 
-  .WeatherInfo .temperature-container .temperature,
-  .WeatherInfo .temperature-container .unit {
-    font-size: 2rem;
+  .WeatherInfo .temperature-wrapper {
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline; /* Ensures proper vertical alignment */
+  }
+
+  .WeatherInfo .temperature {
+    font-size: 2rem; /* Ensures temperature stays the same size */
+  }
+
+  .WeatherInfo .unit {
+    font-size: 1rem; /* Smaller font size for mobile view */
+    margin-left: 5px; /* Adds some space between the temperature and the unit */
   }
 }
+
+
+   
+
